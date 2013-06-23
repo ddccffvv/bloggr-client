@@ -1,0 +1,19 @@
+HTTPS via proxy in ruby
+stmu
+2013-06-23
+
+    1 require "net/https"
+    2
+    3 uri = URI.parse("https://www.google.be")
+    4 proxy = Net::HTTP::Proxy("localhost", 8080)
+    5 http_session = proxy.new(uri.host, uri.port)
+    6 http_session.use_ssl = true
+    7
+    8
+    9 http_session.start { |http|
+    10     req = Net::HTTP::Get.new("/")
+    11     resp, data = http.request(req)
+    12     puts resp
+    13     puts data
+    14 }
+

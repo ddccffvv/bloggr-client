@@ -1,0 +1,12 @@
+Vim & binary files
+stmu
+2013-06-23
+
+Converting to binary:
+
+    :%!xxd
+
+Convert back:
+
+    :%!xxd -r
+

@@ -1,0 +1,10 @@
+Cronjobs
+stmu
+2013-06-23
+Setting:
+
+    crontab -e
+Format:
+
+    m h d m w command args
+

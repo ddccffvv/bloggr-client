@@ -1,0 +1,17 @@
+Flask and apache (wsgi config put the webapp in a subfolder)
+stmu
+2013-06-23
+To put in the sites enabled config:
+
+    WSGIDaemonProcess test user=usr group=usr home="/var/www/site/directory"
+    WSGIScriptAlias /path/on/site "/path/to/wsgi/file/test.wsgi"
+
+    <Directory /var/www/site/directory/>
+        WSGIProcessGroup test
+        WSGIApplicationGroup %{GLOBAL}
+        WSGIScriptReloading On # Automatic reload if the plugin files are changed
+        WSGIPassAuthorization On # pass on http authorization to the application
+        Order allow,deny
+        Allow from all
+    </Directory>
+
