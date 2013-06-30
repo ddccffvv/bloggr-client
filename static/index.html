@@ -2,11 +2,22 @@
 <html>
 <head>
 <meta charset=utf-8 />
-<title>Stuff to remember</title>
+<title>Automating Things</title>
   <link rel="stylesheet" href="static/css/normalize.css">
   <link rel="stylesheet" href="static/css/bootstrap.css">
   <link rel="stylesheet" href="static/css/style.css">
+  <script>
+      (function(i,s,o,g,r,a,m){
+          i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-42128858-1', 'stmu.co');
+
+    </script>
 </head>
+
 <body>
 
   <script type="text/x-handlebars">
@@ -14,13 +25,28 @@
       <div class="navbar-inner">
         <a class="brand" href="#">stmu.co</a>
         <ul class="nav">
+          <li>{{#linkTo 'index'}}Home{{/linkTo}}</li>
           <li>{{#linkTo 'posts'}}Posts{{/linkTo}}</li>
+          <li>{{#linkTo 'technicals'}}Technical Notes{{/linkTo}}</li>
+          <li>{{#linkTo 'contact'}}Contact{{/linkTo}}</li>
           <li>{{#linkTo 'about'}}About{{/linkTo}}</li>
         </ul>
       </div>
     </div>
 
     {{outlet}}
+  </script>
+
+  <script type="text/x-handlebars" id="index">
+      <div class="jumbotron masthead">
+          <div class="container">
+              <h1>Automating Things</h1>
+                <p>
+                Automathing Things takes care of your repititive tasks and problems, so you can focus on <b>actually running your business!</b>
+                </p>
+          </div>
+      </div>
+
   </script>
 
   <script type="text/x-handlebars" id="posts">
@@ -51,7 +77,44 @@
 
   <script type="text/x-handlebars" id="post">
     <h1>{{title}}</h1>
-    <h2>by {{author}} <small class='muted'>({{publishedAt}})</small></h2>
+    <h2>by {{author}} <small class='muted'>({{date publishedAt}})</small></h2>
+
+    <hr>
+
+    <div class='below-the-fold'>
+      {{markdown extended}}
+    </div>
+  </script>
+  
+  <script type="text/x-handlebars" id="technicals">
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <table class='table'>
+            <thead>
+              <tr><th>Recent Notes</th></tr>
+            </thead>
+            {{#each model}}
+            <tr><td>
+              {{#linkTo 'technical' this}}{{title}} <small class='muted'>by {{author}}</small>{{/linkTo}}
+            </td></tr>
+            {{/each}}
+          </table>
+        </div>
+        <div class="span9">
+          {{outlet}}
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/x-handlebars" id="technicals/index">
+    <p class="text-warning">Please select a post</p>
+  </script>
+
+  <script type="text/x-handlebars" id="technical">
+    <h1>{{title}}</h1>
+    <h2>by {{author}} <small class='muted'>({{date publishedAt}})</small></h2>
 
     <hr>
 
@@ -62,9 +125,15 @@
 
   <script type="text/x-handlebars" id="about">
     <div class='about'>
-        <a href="https://twitter.com/ddccffvv" >@ddccffvv</a>
+        <p>Stijn is an engineer who loves solving your problems and delivering value to your company.</p> 
+        <p>His chosen tool for this job is software, which can provide both quick wins and robust solutions.</p>
     </div>
+  </script>
 
+  <script type="text/x-handlebars" id="contact">
+      <div>
+          <p>Page under construction</p>
+      </div>
   </script>
 
   <script src="static/js/libs/jquery-1.9.1.js"></script>

@@ -1,5 +1,30 @@
 App = Ember.Application.create({});
 
+App.initializer({
+    name: 'google-analytics',
+
+    initialize: function(container, app) {
+        var router = container.lookup('router:main');
+
+        router.addObserver('url', function() {
+            var lastUrl = undefined;
+            return function() {
+                Ember.run.next(function() {
+                    var url = router.get('url');
+                    if (url === ""){
+                        url = "/";
+                    }
+                    if (url !== lastUrl) {
+                        lastUrl = url;
+                        ga('send', 'pageview', {'page' : url});
+                        console.log("Google Analytics: " + url);
+                    }
+                });
+            };
+        }());
+    }
+});
+
 App.Store = DS.Store.extend({
   revision: 12,
   adapter: DS.RESTAdapter.extend({
@@ -9,8 +34,12 @@ App.Store = DS.Store.extend({
 
 App.Router.map(function() {
   this.resource('about');
+  this.resource('contact');
   this.resource('posts', function() {
     this.resource('post', { path: ':post_id' });
+  });
+  this.resource('technicals', function() {
+    this.resource('technical', { path: ':technical_id' });
   });
 });
 
@@ -19,16 +48,27 @@ App.PostsRoute = Ember.Route.extend({
     return App.Post.find();
   }
 });
+App.TechnicalsRoute = Ember.Route.extend({
+  model: function() {
+    return App.Technical.find();
+  }
+});
 
 App.IndexRoute = Ember.Route.extend({
-  redirect: function() {
-    this.transitionTo('posts');
-  }
+});
+
+App.ContactRoute = Ember.Route.extend({
 });
 
 var attr = DS.attr;
 
 App.Post = DS.Model.extend({
+  title: attr('string'),
+  author: attr('string'),
+  extended: attr('string'),
+  publishedAt: attr('date')
+});
+App.Technical = DS.Model.extend({
   title: attr('string'),
   author: attr('string'),
   extended: attr('string'),
@@ -46,27 +86,3 @@ Ember.Handlebars.registerBoundHelper('date', function(date) {
   return moment(new Date(date)).fromNow();
 });
 
-
-App.Post.FIXTURES = [
-{
-    id: 1,
-    title: "bliep",
-    author: "ddccffvv",
-    extended: "blablabla",
-    publishedAt: "2013-06-21"
-},
-{
-    id: 2,
-    title: "Vim and binary files",
-    author: "ddccffvv",
-    extended: "    :%!xxd\n    :%!xxd -r",
-    publishedAt: "2013-06-21"
-},
-{
-    id: 3,
-    title: "Flask and apache",
-    author: "ddccffvv",
-    extended: "wsgi config put the webapp in a subfolder\nTo put in the sites enabled config:\n    WSGIDaemonProcess test user=usr group=usr home=\"/var/www/site/directory\"\n    WSGIScriptAlias /path/on/site \"/path/to/wsgi/file/test.wsgi\"    <Directory /var/www/site/directory/>    WSGIProcessGroup test\n    WSGIApplicationGroup %{GLOBAL}\n    WSGIScriptReloading On # Automatic reload if the plugin files are changed\n    WSGIPassAuthorization On # pass on http authorization to the application\n    Order allow,deny\n    Allow from all\n    </Directory>",
-    publishedAt: "2013-06-21"
-},
-];
