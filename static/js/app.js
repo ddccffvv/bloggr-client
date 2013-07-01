@@ -28,7 +28,7 @@ App.initializer({
 App.Store = DS.Store.extend({
   revision: 12,
   adapter: DS.RESTAdapter.extend({
-    url: "http://localhost:5000"
+    url: "http://stmu.co"
   })
 });
 
