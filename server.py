@@ -7,6 +7,10 @@ app = Flask(__name__)
 def root():
     return app.send_static_file('index.html')
 
+@app.route('/google3e57b6fec487420e.html')
+def google_verification():
+    return app.send_static_file('gverification.html')
+
 @app.route('/technicals')
 def technicals():
     return Response(json.dumps({"technicals": get_technicals()}), mimetype='application/json')

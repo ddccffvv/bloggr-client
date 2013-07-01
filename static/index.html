@@ -21,6 +21,7 @@
 <body>
 
   <script type="text/x-handlebars">
+   <div class="container-narrow">
     <div class="navbar">
       <div class="navbar-inner">
         <a class="brand" href="#">stmu.co</a>
@@ -35,6 +36,7 @@
     </div>
 
     {{outlet}}
+   </div>
   </script>
 
   <script type="text/x-handlebars" id="index">
@@ -42,8 +44,9 @@
           <div class="container">
               <h1>Automating Things</h1>
                 <p>
-                Automathing Things takes care of your repititive tasks and problems, so you can focus on <b>actually running your business!</b>
+                Automathing Things takes care of your repetitive tasks and problems, so you can focus on <b>actually running your business!</b>
                 </p>
+          	{{#linkTo 'contact' classNames="btn btn-large btn-success"}}Contact us if you have repetitive problems{{/linkTo}}
           </div>
       </div>
 
@@ -109,7 +112,7 @@
   </script>
 
   <script type="text/x-handlebars" id="technicals/index">
-    <p class="text-warning">Please select a post</p>
+    <p class="text-warning">Please select a note</p>
   </script>
 
   <script type="text/x-handlebars" id="technical">
@@ -121,6 +124,8 @@
     <div class='below-the-fold'>
       {{markdown extended}}
     </div>
+    <div id="disqus_thread"></div>
+    {{view App.DisqusView contentBinding="model"}}
   </script>
 
   <script type="text/x-handlebars" id="about">
@@ -131,9 +136,11 @@
   </script>
 
   <script type="text/x-handlebars" id="contact">
-      <div>
-          <p>Page under construction</p>
-      </div>
+      <div id="wufoo-z7x4m1">
+	      The form is loading, give it a second!
+       </div>
+       {{view App.WufooView}}
+
   </script>
 
   <script src="static/js/libs/jquery-1.9.1.js"></script>
